@@ -25,7 +25,6 @@ export class AppComponent {
             name: ['', [Validators.required, nameValidator, nameLengthValidator]],
             age: ['', [Validators.required, ageValidator]],
             email: ['', [Validators.required, Validators.email]],
-            tags: ['', Validators.required]
         });
     }
 
@@ -37,6 +36,9 @@ export class AppComponent {
         // stop here if form is invalid
         if (this.registerForm.invalid) {
             return;
+        } else if(!this.uploadSuccess) {
+          alert('Please upload the music file')
+          return;
         }
 
         alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.registerForm.value))
@@ -50,17 +52,9 @@ export class AppComponent {
         this.uploadAndProgress(files);
         }
       }
-    
-    //   basicUpload(files: File[]){
-    //     var formData = new FormData();
-    //     Array.from(files).forEach(f => formData.append('file', f))
-    //     this.http.post('https://file.io', formData)
-    //       .subscribe(event => {  
-    //         console.log('done')
-    //       })
-    //   }
 
       uploadAndProgress(files: File[]){
+        this.uploadSuccess = false;
         console.log(files)
         var formData = new FormData();
         Array.from(files).forEach(f => formData.append('file',f))
